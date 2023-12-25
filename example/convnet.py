@@ -8,7 +8,7 @@ from torch.utils.data import DataLoader
 # 定义超参数
 learning_rate = 1e-3
 batch_size    = 256
-epoches_num   = 5
+epoches_num   = 50
 
 # 加载cpu/gpu设备
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -16,9 +16,9 @@ if torch.cuda.is_available():
     print("CUDA is enable!")
 
 # 加载数据集
-train_dataset = datasets.CIFAR10( root='./data', train=True, transform=transforms.ToTensor(), download=True)
+train_dataset = datasets.CIFAR10( root='../data', train=True, transform=transforms.ToTensor(), download=True)
 train_loader  = DataLoader( train_dataset, batch_size=batch_size, shuffle=True )
-test_dataset  = datasets.CIFAR10( root='./data', train=False, transform=transforms.ToTensor())
+test_dataset  = datasets.CIFAR10( root='../data', train=False, transform=transforms.ToTensor())
 test_loader   = DataLoader(test_dataset , batch_size=batch_size, shuffle=False)
 
 class ConvNet(nn.Module):
@@ -36,6 +36,7 @@ class ConvNet(nn.Module):
         )
         self.fullcon1 = nn.Linear(16 * 7 * 7, 100)
         self.fullcon2 = nn.Linear(100, 10)
+        self.dropout = nn.Dropout(0.2)
 
     def forward(self, X):
         X = self.conv1(X)
@@ -43,6 +44,7 @@ class ConvNet(nn.Module):
         X = X.view(X.size(0), -1)
         X = self.fullcon1(X)
         X = F.relu(X)
+        X = self.dropout(X)
         out = self.fullcon2(X)
         return out
 
@@ -76,9 +78,9 @@ def eval_model(model, device, text_loader):
     correct = 0.0
     global Accuracy
     test_loss = 0.0
-    with torch.no_grad():#不会计算梯度，也不会进行反向传播
+    with torch.no_grad(): # 不会计算梯度，也不会进行反向传播
         for data, target in text_loader:
-            data, target = data.to(device), target.to(device)#部署到device上
+            data, target = data.to(device), target.to(device)
             output = model(data)
             test_loss += criterion(output,target).item()
             pred = output.argmax(dim=1)
