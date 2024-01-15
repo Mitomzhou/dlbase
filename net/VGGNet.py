@@ -17,7 +17,7 @@ def vgg_block(num_convs, in_channels, out_channels):
 
 def vgg(conv_arch):
     conv_blks = []
-    in_channels = 1
+    in_channels = 3
     # 卷积层部分
     for (num_convs, out_channels) in conv_arch:
         conv_blks.append(vgg_block(num_convs, in_channels, out_channels))
@@ -33,7 +33,7 @@ def vgg(conv_arch):
 conv_arch = ((1, 64), (1, 128), (2, 256), (2, 512), (2, 512))
 vggnet = vgg(conv_arch)
 
-X = torch.randn(size=(1, 1, 224, 224))
-for blk in vggnet:
-    X = blk(X)
-    print(blk.__class__.__name__,'output shape:\t',X.shape)
+# X = torch.randn(size=(1, 1, 224, 224))
+# for blk in vggnet:
+#     X = blk(X)
+#     print(blk.__class__.__name__,'output shape:\t',X.shape)

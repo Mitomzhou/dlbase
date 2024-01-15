@@ -6,14 +6,11 @@ AlexNet:在大规模视觉竞赛中击败传统计算机视觉模型的大型神
 import torch
 from torch import nn
 
-batch_size = 128
-
-
 alexnet = nn.Sequential(
 # 这里使用一个11*11的更大窗口来捕捉对象。
     # 同时，步幅为4，以减少输出的高度和宽度。
     # 另外，输出通道的数目远大于LeNet
-    nn.Conv2d(1, 96, kernel_size=11, stride=4, padding=1), nn.ReLU(),
+    nn.Conv2d(3, 96, kernel_size=11, stride=4, padding=1), nn.ReLU(),
     nn.MaxPool2d(kernel_size=3, stride=2),
     # 减小卷积窗口，使用填充为2来使得输入与输出的高和宽一致，且增大输出通道数
     nn.Conv2d(96, 256, kernel_size=5, padding=2), nn.ReLU(),
@@ -34,11 +31,10 @@ alexnet = nn.Sequential(
     # 最后是输出层。由于这里使用Fashion-MNIST，所以用类别数为10，而非论文中的1000
     nn.Linear(4096, 10)
 )
-
-X = torch.randn(1, 1, 224, 224)
-for layer in alexnet:
-    X=layer(X)
-    print(layer.__class__.__name__,'output shape:\t',X.shape)
+# X = torch.randn(1, 1, 224, 224)
+# for layer in alexnet:
+#     X=layer(X)
+#     print(layer.__class__.__name__,'output shape:\t',X.shape)
 
 
 
