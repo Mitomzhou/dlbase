@@ -5,7 +5,6 @@ Inception块,使用不同大小的卷积层,从不同空间大小中提取信息
 import torch
 from torch import nn
 from torch.nn import functional as F
-from d2l import torch as d2l
 
 class Inception(nn.Module):
     # c1--c4是每条路径的输出通道数

@@ -16,9 +16,9 @@ if torch.cuda.is_available():
     print("CUDA is enable!")
 
 # 加载数据集
-train_dataset = datasets.CIFAR10( root='../data', train=True, transform=transforms.ToTensor(), download=True)
+train_dataset = datasets.CIFAR10( root='/data', train=True, transform=transforms.ToTensor(), download=True)
 train_loader  = DataLoader( train_dataset, batch_size=batch_size, shuffle=True )
-test_dataset  = datasets.CIFAR10( root='../data', train=False, transform=transforms.ToTensor())
+test_dataset  = datasets.CIFAR10( root='/data', train=False, transform=transforms.ToTensor())
 test_loader   = DataLoader(test_dataset , batch_size=batch_size, shuffle=False)
 
 class ConvNet(nn.Module):

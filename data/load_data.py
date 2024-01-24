@@ -7,7 +7,7 @@ from torch.utils.data import DataLoader
 
 import os
 
-def load_ImageNet(ImageNet_PATH, batch_size=256, workers=8, pin_memory=True):
+def load_ImageNet(ImageNet_PATH, batch_size=16, workers=3, pin_memory=True):
     traindir = os.path.join(ImageNet_PATH, 'train')
     valdir = os.path.join(ImageNet_PATH, 'val')
     print('traindir = ', traindir)
@@ -55,5 +55,8 @@ def load_ImageNet(ImageNet_PATH, batch_size=256, workers=8, pin_memory=True):
     )
     return train_loader, val_loader, train_dataset, val_dataset
 
-# train_loader, val_loader, train_dataset, val_dataset = load_ImageNet('/home/skyrover/DL/data/ImageNet')
-#print(train_dataset.classes)
+train_loader, val_loader, train_dataset, val_dataset = load_ImageNet('/data/imagenet')
+classes = train_dataset.classes
+print("Classes:", classes)
+print(train_dataset.class_to_idx)
+# print(train_dataset.imgs)
